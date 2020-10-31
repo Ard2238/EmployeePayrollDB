@@ -1,17 +1,15 @@
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.util.Enumeration;
 
-public class EmployeePayrollService {
+public class EmployeePayrollServiceMain {
     public static void main(String[] args) throws CustomException {
         System.out.println("Welcome to The Employee Payroll Service Database Program");
 
+        /* UC1 --create database and get connection */
         JDBCConnection jdbc_con = new JDBCConnection();
         Connection con = jdbc_con.getConnection();
 
-        EmployeeOperations emp_op = new EmployeeOperations();
+        /* UC2 -- retrieve employee data from database */
+        EmployeeDBOperations emp_op = new EmployeeDBOperations();
         emp_op.readData(con);
-
     }
 }

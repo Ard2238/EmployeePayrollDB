@@ -1,49 +1,14 @@
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
-public class EmployeeOperations implements CRUD{
-    List<Employee> employee_list = new ArrayList<>();
+public class EmployeeOperations {
 
-    @Override
-    public void readData(Connection con) throws CustomException {
-        try{
-            String query = "Select * from employee";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                char gender = rs.getString(3).charAt(0);
-                double salary = rs.getDouble(4);
-                Date date = rs.getDate(5);
-                long phone = rs.getLong(6);
-                String address = rs.getString(7);
-                String department = rs.getString(8);
-
-                Employee emp = new Employee(id,name,gender,salary,date,phone,address,department);
-                employee_list.add(emp);
+    public void updateEmployeeObject(String name, String value){
+        for(Employee e: EmployeeDBOperations.employee_list){
+            if(e.getName().equals(name)) {
+                e.setSalary(Double.parseDouble(value));
+                System.out.println(e.getSalary());
             }
-        }catch(Exception e){
-            throw new CustomException("Read Process Unsuccessful");
         }
-    }
-
-    @Override
-    public void insertData() {
-
-    }
-
-    @Override
-    public void updateData() {
-
-    }
-
-    @Override
-    public void deleteData() {
-
     }
 }

@@ -51,4 +51,11 @@ public class Employee {
     public String getDepartment() { return department; }
 
     public void setDepartment(String department) { this.department = department;}
+
+    @Override
+    public String toString() {
+        return "Id: " + this.id + " | Name: " + this.name + " | Gender: " + this.gender + " | Salary: " + this.salary
+                + " | Date: " + this.date + " | Phone: " + this.phone + " | Address: " + this.address
+                + " | Department: " + this.department;
+    }
 }
