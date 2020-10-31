@@ -1,13 +1,11 @@
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
-import java.util.Enumeration;
 
 public class JDBCConnection {
     Connection con = null;
 
     /* UC1 -- check if the driver class is available and establish a connection */
-    public Connection getConnection(){
+    public Connection getConnection() {
         String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?allowPublicKeyRetrieval=true&useSSL=false";
         String userName = "root";
         String password = "Ard2238";

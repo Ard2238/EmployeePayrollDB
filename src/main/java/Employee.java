@@ -1,6 +1,9 @@
-import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * POJO class for Employee Objects obtained from retrieving data
+ * from the database;
+ */
 public class Employee {
     private int id;
     private String name, address, department;

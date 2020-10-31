@@ -1,6 +1,7 @@
-import java.util.Iterator;
-import java.util.List;
-
+/**
+ * This class contains all the methods which operate on the Employee List
+ * obtained from reading the table from the database.
+ */
 public class EmployeeOperations {
 
     public void updateEmployeeObject(String name, String value){
