@@ -116,4 +116,10 @@ public class EmployeeDBOperations implements CRUD{
         ResultSet rs = this.getEmployeeDataFromDB(query);
         return rs;
     }
+
+    public ResultSet getAggregationFunctions() {
+        String query = "select gender, count(gender), min(salary), max(salary), avg(salary), sum(salary) from employee group by gender;";
+        ResultSet rs = this.getEmployeeDataFromDB(query);
+        return rs;
+    }
 }
