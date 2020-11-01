@@ -8,8 +8,16 @@ public class EmployeeOperations {
         for(Employee e: EmployeeDBOperations.employee_list){
             if(e.getName().equals(name)) {
                 e.setSalary(Double.parseDouble(value));
-                System.out.println(e.getSalary());
             }
         }
+    }
+
+    public Employee getEmployeeDataFromObject(String name){
+        Employee emp = null;
+        for(Employee e: EmployeeDBOperations.employee_list){
+            if(e.getName().equals(name))
+                emp = e;
+        }
+        return emp;
     }
 }
