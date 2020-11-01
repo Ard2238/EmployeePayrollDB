@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,5 +109,11 @@ public class EmployeeDBOperations implements CRUD{
             emp = new Employee(id,name,gender,salary,date,phone,address,department);
         }
         return emp;
+    }
+
+    public ResultSet retrieveEmployeesByDate(String startDate, String endDate){
+        String query = "Select * from employee where start date between " + startDate + " and " + endDate;
+        ResultSet rs = this.getEmployeeDataFromDB(query);
+        return rs;
     }
 }
