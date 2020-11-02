@@ -56,35 +56,53 @@ public class EmployeeDBOperations implements CRUD{
     }
 
     @Override
-    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept) throws SQLException {
+    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept) {
         int result_query1 = -1, result_query2 = -1, result = 0;
         int id = 0;
         Employee emp = null;
         JDBCConnection jdbc_con = new JDBCConnection();
         Connection con = jdbc_con.getConnection();
-        String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address, department) values " +
-                "('%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept);
-        Statement stmt = con.createStatement();
-        result_query1 = stmt.executeUpdate(query,stmt.RETURN_GENERATED_KEYS);
-        if(result_query1 == 1){
-            ResultSet rs = stmt.getGeneratedKeys();
-            while(rs.next()) {
-                id = rs.getInt(1);
-                emp = new Employee(id, name, gender, salary, date, phone, addr, dept);
+        try {
+
+            con.setAutoCommit(false);
+            String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address, department) values " +
+                    "('%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept);
+            Statement stmt = con.createStatement();
+            result_query1 = stmt.executeUpdate(query, stmt.RETURN_GENERATED_KEYS);
+            if (result_query1 == 1) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                    emp = new Employee(id, name, gender, salary, date, phone, addr, dept);
+                }
             }
-        }
 
-        double deductions = .2 * salary;
-        double taxable_pay = salary - deductions;
-        double income_tax = 0.1 * taxable_pay;
-        double net_salary = salary - income_tax;
-        String query2 = String.format("Insert into payroll_details (Emp_id, Basic_Pay, Deductions, Taxable_Pay, Income_Tax, Net_Pay)" +
-                " values ('%s', '%s', '%s', '%s', '%s', '%s')", id, salary, deductions, taxable_pay, income_tax, net_salary);
-        result_query2 = stmt.executeUpdate(query2, stmt.RETURN_GENERATED_KEYS);
+            double deductions = .2 * salary;
+            double taxable_pay = salary - deductions;
+            double income_tax = 0.1 * taxable_pay;
+            double net_salary = salary - income_tax;
+            String query2 = String.format("Insert into payroll_details (Emp_id, Basic_Pay, Deductions, Taxable_Pay, Income_Tax, Net_Pay)" +
+                    " values ('%s', '%s', '%s', '%s', '%s', '%s')", id, salary, deductions, taxable_pay, income_tax, net_salary);
+            result_query2 = stmt.executeUpdate(query2, stmt.RETURN_GENERATED_KEYS);
 
-        if(result_query1 == 1 && result_query2 == 2){
-            result = 1;
-            EmployeeDBOperations.getEmployee_list().add(emp);
+            if (result_query1 == 1 && result_query2 == 2) {
+                con.commit();
+                result = 1;
+                EmployeeDBOperations.getEmployee_list().add(emp);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            try{
+                con.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }finally {
+            try{
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
