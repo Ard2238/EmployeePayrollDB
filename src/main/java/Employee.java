@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ public class Employee {
     private Date date;
     private long phone;
 
-    public Employee(int id, String name, char gender, double salary, Date date, long phone,String address, String department) {
+    public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -60,5 +61,20 @@ public class Employee {
         return "Id: " + this.id + " | Name: " + this.name + " | Gender: " + this.gender + " | Salary: " + this.salary
                 + " | Date: " + this.date + " | Phone: " + this.phone + " | Address: " + this.address
                 + " | Department: " + this.department;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        Employee e = (Employee) obj;
+        return Integer.compare(this.getId(), e.getId()) == 0
+                && this.getName().equals(e.getName())
+                && Character.compare(this.getGender(), e.getGender()) == 0
+                && Double.compare(this.getSalary(), e.getSalary()) == 0
+                && String.valueOf(this.getDate()).equals(String.valueOf(e.getDate()))
+                && Long.compare(this.getPhone(), e.getPhone()) == 0
+                && this.getAddress().equals(e.getAddress())
+                && this.getDepartment().equals(e.getDepartment());
     }
 }

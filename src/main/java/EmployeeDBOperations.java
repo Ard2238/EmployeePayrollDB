@@ -53,7 +53,23 @@ public class EmployeeDBOperations implements CRUD{
     }
 
     @Override
-    public void insertData() { }
+    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept) throws SQLException {
+        int result_query = -1;
+        JDBCConnection jdbc_con = new JDBCConnection();
+        Connection con = jdbc_con.getConnection();
+        String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address, department) values " +
+                "('%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept);
+        Statement stmt = con.createStatement();
+        result_query = stmt.executeUpdate(query,stmt.RETURN_GENERATED_KEYS);
+        if(result_query == 1){
+            ResultSet rs = stmt.getGeneratedKeys();
+            while(rs.next()) {
+                int id = rs.getInt(1);
+                EmployeeDBOperations.employee_list.add(new Employee(id, name, gender, salary, date, phone, addr, dept));
+            }
+        }
+        return result_query;
+    }
 
     @Override
     public void updateData(String column, String name, String value) throws CustomException, SQLException {

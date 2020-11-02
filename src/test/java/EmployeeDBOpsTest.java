@@ -2,8 +2,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 public class EmployeeDBOpsTest {
     EmployeeDBOperations empDBO;
@@ -30,5 +32,27 @@ public class EmployeeDBOpsTest {
                 salary = rs.getDouble("salary");
         }
         Assert.assertEquals(e.getSalary(), salary,0);
+    }
+
+    @Test
+    public void insertEmployeeDateOnSuccessfulUpdatingOfDatabase() throws ParseException, SQLException {
+        Date date = new Date(2018,03,05);
+        empDBO.insertDataToEmployeeDB("Harvey", 'M',350000, date,981726721,"India", "Finance");
+
+        Employee e = eo.getEmployeeDataFromObject("Harvey");
+        ResultSet rs = empDBO.getEmployeeDataFromDB("Select * from employee where name = 'Harvey'");
+        Employee emp = null;
+        while(rs.next()){
+            int id = rs.getInt(1);
+            String name = rs.getString(2);
+            char gender = rs.getString(3).charAt(0);
+            double salary = rs.getDouble(4);
+            Date date1 = rs.getDate(5);
+            long phone = rs.getLong(6);
+            String address = rs.getString(7);
+            String department = rs.getString(8);
+            emp = new Employee(id,name,gender,salary,date1,phone,address,department);
+        }
+        Assert.assertEquals(e,emp);
     }
 }
