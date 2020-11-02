@@ -5,7 +5,7 @@
 public class EmployeeOperations {
 
     public void updateEmployeeObject(String name, String value){
-        for(Employee e: EmployeeDBOperations.employee_list){
+        for(Employee e: EmployeeDBOperations.getEmployee_list()){
             if(e.getName().equals(name)) {
                 e.setSalary(Double.parseDouble(value));
             }
@@ -13,11 +13,11 @@ public class EmployeeOperations {
     }
 
     public Employee getEmployeeDataFromObject(String name){
-        Employee emp = null;
-        for(Employee e: EmployeeDBOperations.employee_list){
-            if(e.getName().equals(name))
-                emp = e;
+        for(Employee e: EmployeeDBOperations.getEmployee_list()){
+            if(e.getName().equals(name)) {
+                return e;
+            }
         }
-        return emp;
+        return null;
     }
 }

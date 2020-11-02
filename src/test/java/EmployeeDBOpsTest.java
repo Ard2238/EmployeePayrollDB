@@ -35,12 +35,13 @@ public class EmployeeDBOpsTest {
     }
 
     @Test
-    public void insertEmployeeDateOnSuccessfulUpdatingOfDatabase() throws ParseException, SQLException {
+    public void insertEmployeeDateOnSuccessfulUpdatingOfDatabase() throws SQLException, CustomException {
         Date date = new Date(2018,03,05);
-        empDBO.insertDataToEmployeeDB("Harvey", 'M',350000, date,981726721,"India", "Finance");
+        empDBO.insertDataToEmployeeDB("Michael", 'M',500000, date,981726432,"India", "HR");
 
-        Employee e = eo.getEmployeeDataFromObject("Harvey");
-        ResultSet rs = empDBO.getEmployeeDataFromDB("Select * from employee where name = 'Harvey'");
+        empDBO.readDataFromDatabaseToObject();
+        Employee e = eo.getEmployeeDataFromObject("Michael");
+        ResultSet rs = empDBO.getEmployeeDataFromDB("Select * from employee where name = 'Michael'");
         Employee emp = null;
         while(rs.next()){
             int id = rs.getInt(1);

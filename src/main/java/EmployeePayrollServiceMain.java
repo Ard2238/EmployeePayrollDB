@@ -1,6 +1,6 @@
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class EmployeePayrollServiceMain {
     public static void main(String[] args) throws CustomException, SQLException {
@@ -13,5 +13,9 @@ public class EmployeePayrollServiceMain {
         /* UC2 -- retrieve employee data from database */
         EmployeeDBOperations emp_op = EmployeeDBOperations.getInstance();
         emp_op.readDataFromDatabaseToObject();
+
+        for(Employee e : EmployeeDBOperations.getEmployee_list()){
+            System.out.println(e.toString());
+        }
     }
 }
