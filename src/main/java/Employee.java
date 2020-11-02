@@ -15,6 +15,7 @@ public class Employee {
     String department;
     String company_name;
     int company_id;
+    private String active;
 
     public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department) {
         this.id = id;
@@ -27,7 +28,7 @@ public class Employee {
         this.department = department;
     }
 
-    public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department, String company_name) {
+    public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department, String company_name, String active) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -37,6 +38,7 @@ public class Employee {
         this.phone = phone;
         this.department = department;
         this.company_name = company_name;
+        this.active = active;
     }
 
     public int getId() { return id; }
@@ -70,6 +72,14 @@ public class Employee {
     public String getDepartment() { return department; }
 
     public void setDepartment(String department) { this.department = department;}
+
+    public String getActive() { return active; }
+
+    public void setActive(String active) { this.active = active; }
+
+    public String getCompany_name() { return company_name; }
+
+    public void setCompany_name(String company_name) { this.company_name = company_name; }
 
     @Override
     public String toString() {

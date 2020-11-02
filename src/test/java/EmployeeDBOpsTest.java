@@ -37,7 +37,7 @@ public class EmployeeDBOpsTest {
     @Test
     public void insertEmployeeDateOnSuccessfulUpdatingOfDatabase() throws SQLException, CustomException {
         Date date = new Date(2018,03,05);
-        empDBO.insertDataToEmployeeDB("Donna", 'F',450000, date,924781611,"India", "Sales",4,"Amazon");
+        empDBO.insertDataToEmployeeDB("Donna", 'F',450000, date,924781611,"India", "Sales",4,"Amazon", "Yes");
 
         empDBO.readDataFromDatabaseToObject();
         Employee e = eo.getEmployeeDataFromObject("Donna");
@@ -53,8 +53,15 @@ public class EmployeeDBOpsTest {
             String address = rs.getString(7);
             String department = rs.getString(8);
             String cname = rs.getString(9);
-            emp = new Employee(id,name,gender,salary,date1,phone,address,department,cname);
+            String active = rs.getString(10);
+            emp = new Employee(id,name,gender,salary,date1,phone,address,department,cname,active);
         }
         Assert.assertEquals(e,emp);
+    }
+
+    @Test
+    public void checkForRemovalOfEmployee() throws CustomException, SQLException {
+        //empDBO.readDataFromDatabaseToObject();
+        eo.removeEmployee("Harvey");
     }
 }

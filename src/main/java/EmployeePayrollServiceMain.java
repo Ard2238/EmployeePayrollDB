@@ -13,9 +13,5 @@ public class EmployeePayrollServiceMain {
         /* UC2 -- retrieve employee data from database */
         EmployeeDBOperations emp_op = EmployeeDBOperations.getInstance();
         emp_op.readDataFromDatabaseToObject();
-
-        for(Employee e : EmployeeDBOperations.getEmployee_list()){
-            System.out.println(e.toString());
-        }
     }
 }

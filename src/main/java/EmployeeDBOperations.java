@@ -31,7 +31,7 @@ public class EmployeeDBOperations implements CRUD{
         JDBCConnection jdbc_con = new JDBCConnection();
         Connection con = jdbc_con.getConnection();
         try{
-            String query = "Select * from employee";
+            String query = "Select * from employee where Is_Active = 'Yes'";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
@@ -56,7 +56,7 @@ public class EmployeeDBOperations implements CRUD{
     }
 
     @Override
-    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept,int cid, String cname) {
+    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept,int cid, String cname, String active) {
         int result_query1 = -1, result_query2 = -1, result_query3 = -1, result = 0;
         int id = 0;
         Employee emp = null;
@@ -65,15 +65,15 @@ public class EmployeeDBOperations implements CRUD{
         try {
 
             con.setAutoCommit(false);
-            String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address, department,String cname) values " +
-                    "('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept, cname);
+            String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address,department,Company,Is_Active) values " +
+                    "('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept, cname,"Yes");
             Statement stmt = con.createStatement();
             result_query1 = stmt.executeUpdate(query, stmt.RETURN_GENERATED_KEYS);
             if (result_query1 == 1) {
                 ResultSet rs = stmt.getGeneratedKeys();
                 while (rs.next()) {
                     id = rs.getInt(1);
-                    emp = new Employee(id, name, gender, salary, date, phone, addr, dept);
+                    emp = new Employee(id, name, gender, salary, date, phone, addr, dept,cname,"Yes");
                 }
             }
 
@@ -85,10 +85,10 @@ public class EmployeeDBOperations implements CRUD{
                     " values ('%s', '%s', '%s', '%s', '%s', '%s')", id, salary, deductions, taxable_pay, income_tax, net_salary);
             result_query2 = stmt.executeUpdate(query2, stmt.RETURN_GENERATED_KEYS);
 
-            String query3 = String.format("Insert into company (cid, company) values ( '%s', '%s')", cid, cname);
-            result_query3 = stmt.executeUpdate(query3, stmt.RETURN_GENERATED_KEYS);
+//            String query3 = String.format("Insert into company (cid, company) values ( '%s', '%s')", cid, cname);
+//            result_query3 = stmt.executeUpdate(query3, stmt.RETURN_GENERATED_KEYS);
 
-            if (result_query1 == 1 && result_query2 == 2 && result_query3 == 0) {
+            if (result_query1 == 1 && result_query2 == 1) {
                 con.commit();
                 result = 1;
                 EmployeeDBOperations.getEmployee_list().add(emp);
@@ -167,14 +167,27 @@ public class EmployeeDBOperations implements CRUD{
     }
 
     public ResultSet retrieveEmployeesByDate(String startDate, String endDate){
-        String query = "Select * from employee where start date between " + startDate + " and " + endDate;
+        String query = "Select * from employee where start date between " + startDate + " and " + endDate + " and Is_Active = 'true' ";
         ResultSet rs = this.getEmployeeDataFromDB(query);
         return rs;
     }
 
     public ResultSet getAggregationFunctions() {
-        String query = "select gender, count(gender), min(salary), max(salary), avg(salary), sum(salary) from employee group by gender;";
+        String query = "select gender, count(gender), min(salary), max(salary), avg(salary), sum(salary) from employee " +
+                "where Is_Active = 'true' group by gender;";
         ResultSet rs = this.getEmployeeDataFromDB(query);
         return rs;
+    }
+
+    public void removeEmployeeFromDB(String name) {
+        try{
+            JDBCConnection jdbc_con = new JDBCConnection();
+            Connection con = jdbc_con.getConnection();
+            String query = String.format("Update employee set Is_Active = 'No' where name = '" + name + "'");
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
