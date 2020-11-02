@@ -7,11 +7,14 @@ import java.util.Date;
  */
 public class Employee {
     private int id;
-    private String name, address, department;
+    private String name, address;
     private char gender;
     private double salary;
     private Date date;
     private long phone;
+    String department;
+    String company_name;
+    int company_id;
 
     public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department) {
         this.id = id;
@@ -22,6 +25,19 @@ public class Employee {
         this.phone = phone;
         this.address = address;
         this.department = department;
+    }
+
+    public Employee(int id, String name, String address, char gender, double salary, Date date, long phone, String department, String company_name, int company_id) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.gender = gender;
+        this.salary = salary;
+        this.date = date;
+        this.phone = phone;
+        this.department = department;
+        this.company_name = company_name;
+        this.company_id = company_id;
     }
 
     public int getId() { return id; }
