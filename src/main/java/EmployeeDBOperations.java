@@ -56,8 +56,8 @@ public class EmployeeDBOperations implements CRUD{
     }
 
     @Override
-    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept) {
-        int result_query1 = -1, result_query2 = -1, result = 0;
+    public int insertDataToEmployeeDB(String name, char gender, double salary, Date date, long phone,String addr, String dept,int cid, String cname) {
+        int result_query1 = -1, result_query2 = -1, result_query3 = -1, result = 0;
         int id = 0;
         Employee emp = null;
         JDBCConnection jdbc_con = new JDBCConnection();
@@ -65,8 +65,8 @@ public class EmployeeDBOperations implements CRUD{
         try {
 
             con.setAutoCommit(false);
-            String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address, department) values " +
-                    "('%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept);
+            String query = String.format("Insert into employee (name,gender,salary,start,emp_phone,address, department,String cname) values " +
+                    "('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", name, gender, salary, date, phone, addr, dept, cname);
             Statement stmt = con.createStatement();
             result_query1 = stmt.executeUpdate(query, stmt.RETURN_GENERATED_KEYS);
             if (result_query1 == 1) {
@@ -85,7 +85,10 @@ public class EmployeeDBOperations implements CRUD{
                     " values ('%s', '%s', '%s', '%s', '%s', '%s')", id, salary, deductions, taxable_pay, income_tax, net_salary);
             result_query2 = stmt.executeUpdate(query2, stmt.RETURN_GENERATED_KEYS);
 
-            if (result_query1 == 1 && result_query2 == 2) {
+            String query3 = String.format("Insert into company (cid, company) values ( '%s', '%s')", cid, cname);
+            result_query3 = stmt.executeUpdate(query3, stmt.RETURN_GENERATED_KEYS);
+
+            if (result_query1 == 1 && result_query2 == 2 && result_query3 == 0) {
                 con.commit();
                 result = 1;
                 EmployeeDBOperations.getEmployee_list().add(emp);

@@ -27,7 +27,7 @@ public class Employee {
         this.department = department;
     }
 
-    public Employee(int id, String name, String address, char gender, double salary, Date date, long phone, String department, String company_name, int company_id) {
+    public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department, String company_name) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -37,7 +37,6 @@ public class Employee {
         this.phone = phone;
         this.department = department;
         this.company_name = company_name;
-        this.company_id = company_id;
     }
 
     public int getId() { return id; }
