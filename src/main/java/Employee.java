@@ -17,6 +17,19 @@ public class Employee {
     int company_id;
     private String active;
 
+    public Employee(String name, char gender, double salary, Date date, long phone, String address, String department, int company_id, String company_name, String active) {
+        this.name = name;
+        this.address = address;
+        this.gender = gender;
+        this.salary = salary;
+        this.date = date;
+        this.phone = phone;
+        this.department = department;
+        this.company_name = company_name;
+        this.company_id = company_id;
+        this.active = active;
+    }
+
     public Employee(int id, String name, char gender, double salary, Date date, long phone, String address, String department) {
         this.id = id;
         this.name = name;
@@ -76,6 +89,10 @@ public class Employee {
     public String getActive() { return active; }
 
     public void setActive(String active) { this.active = active; }
+
+    public int getCompany_id() { return company_id; }
+
+    public void setCompany_id(int company_id) { this.company_id = company_id; }
 
     public String getCompany_name() { return company_name; }
 

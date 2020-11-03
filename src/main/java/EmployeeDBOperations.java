@@ -199,4 +199,21 @@ public class EmployeeDBOperations implements CRUD{
             e.printStackTrace();
         }
     }
+
+    public void addEmployeeThreads(List<Employee> emp_list) {
+        emp_list.forEach(emp ->{
+            Runnable task = () -> {
+                this.insertDataToEmployeeDB(emp.getName(), emp.getGender(), emp.getSalary(), emp.getDate(),
+                                            emp.getPhone(), emp.getAddress(), emp.getDepartment(), emp.getCompany_id(),
+                                            emp.getCompany_name(), emp.getActive());
+            };
+            Thread thread =  new Thread(task);
+            thread.start();
+        });
+        try{
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

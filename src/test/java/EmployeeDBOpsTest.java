@@ -2,12 +2,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Array;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
 
 public class EmployeeDBOpsTest {
     EmployeeDBOperations empDBO;
@@ -73,10 +76,21 @@ public class EmployeeDBOpsTest {
         Date date = Date.valueOf("2018-03-05");
         Instant start = Instant.now();
         empDBO.insertDataToEmployeeDB("Jessica",'F',650000,date,98711671,"India","Finance",4,"Amazon","Yes");
+        empDBO.insertDataToEmployeeDB("Mike",'M',550000,date,98711671,"India","Marketing",5,"Salesforce","Yes");
         Instant end = Instant.now();
-
-        System.out.println("Duration of execution : " + Duration.between(start,end));
+        System.out.println("Duration of execution without Threads: " + Duration.between(start,end));
         int count = empDBO.countNumEntries();
-        Assert.assertEquals(16, count);
+        Assert.assertEquals(17, count);
+
+        Employee[] emp = {
+                new Employee("Allison",'F',650000,date,98711671,"India","Finance",4,"Amazon","Yes"),
+                new Employee("Louis",'M',550000,date,98711671,"India","Marketing",5,"Salesforce","Yes")
+        };
+        Instant startThread = Instant.now();
+        empDBO.addEmployeeThreads(Arrays.asList(emp));
+        Instant endThread = Instant.now();
+        System.out.println("Duration of execution with Threads : " + Duration.between(startThread, endThread));
+        int countNew = empDBO.countNumEntries();
+        Assert.assertEquals(19, countNew);
     }
 }
