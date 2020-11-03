@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.Duration;
+import java.time.Instant;
 
 public class EmployeeDBOpsTest {
     EmployeeDBOperations empDBO;
@@ -63,5 +65,18 @@ public class EmployeeDBOpsTest {
     public void checkForRemovalOfEmployee() throws CustomException, SQLException {
         //empDBO.readDataFromDatabaseToObject();
         eo.removeEmployee("Harvey");
+    }
+
+    @Test
+    public void check_AdditionOfEmployeeWithThreadExecutionTime() throws CustomException, SQLException {
+        empDBO.readDataFromDatabaseToObject();
+        Date date = Date.valueOf("2018-03-05");
+        Instant start = Instant.now();
+        empDBO.insertDataToEmployeeDB("Jessica",'F',650000,date,98711671,"India","Finance",4,"Amazon","Yes");
+        Instant end = Instant.now();
+
+        System.out.println("Duration of execution : " + Duration.between(start,end));
+        int count = empDBO.countNumEntries();
+        Assert.assertEquals(16, count);
     }
 }

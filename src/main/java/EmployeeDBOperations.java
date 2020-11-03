@@ -178,6 +178,15 @@ public class EmployeeDBOperations implements CRUD{
         ResultSet rs = this.getEmployeeDataFromDB(query);
         return rs;
     }
+    public int countNumEntries() throws SQLException {
+        int count = 0;
+        String query = "select count(id) from employee ";
+        ResultSet rs = this.getEmployeeDataFromDB(query);
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        return count;
+    }
 
     public void removeEmployeeFromDB(String name) {
         try{
