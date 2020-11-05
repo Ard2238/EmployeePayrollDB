@@ -1,5 +1,6 @@
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,6 +35,19 @@ public class EmployeeRestAssuredTest {
                     .when()
                     .post("/employees/create");
         }
+    }
+
+    @Test
+    public void test_UpdateEmployeeSalaryJsonServer(){
+        RestAssured.given().contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body("{\"name\" : \"Abhishek\", \"salary\" : \"250000.0\"}")
+                .when()
+                .put("/employees/update/1")
+                .then()
+                .body("id", Matchers.is("1"))
+                .body("name", Matchers.is("Abhishek"))
+                .body("salary", Matchers.is("250000.0"));
     }
 
 }
