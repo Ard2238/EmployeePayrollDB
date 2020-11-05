@@ -19,21 +19,21 @@ public class EmployeeRestAssuredTest {
     @Test
     public void test_AddEmployeeToJsonServer() throws CustomException, SQLException {
         List<Employee> contacts = empDBO.readDataFromDatabaseToObject();
-        Employee emp = contacts.get(0);
-
-        HashMap<String, String> map = new HashMap<>();
-        int id = emp.getId();
-        String name_emp = emp.getName();
-        double salary_emp = emp.getSalary();
-        map.put("id", String.valueOf(id));
-        map.put("name", name_emp);
-        map.put("salary", String.valueOf(salary_emp));
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(map)
-                .when()
-                .post("/employees/create");
+        for(Employee e : contacts){
+            HashMap<String, String> map = new HashMap<>();
+            int id = e.getId();
+            String name_emp = e.getName();
+            double salary_emp = e.getSalary();
+            map.put("id", String.valueOf(id));
+            map.put("name", name_emp);
+            map.put("salary", String.valueOf(salary_emp));
+            RestAssured.given()
+                    .contentType(ContentType.JSON)
+                    .accept(ContentType.JSON)
+                    .body(map)
+                    .when()
+                    .post("/employees/create");
+        }
     }
 
 }
