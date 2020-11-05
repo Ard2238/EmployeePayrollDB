@@ -2,7 +2,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Array;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +9,7 @@ import java.text.ParseException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.List;
+
 
 public class EmployeeDBOpsTest {
     EmployeeDBOperations empDBO;
